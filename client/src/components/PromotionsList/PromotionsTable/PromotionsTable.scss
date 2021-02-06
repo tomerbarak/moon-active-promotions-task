@@ -1,0 +1,100 @@
+@import '../../../styles/index.scss';
+
+.table {
+  border-collapse: collapse;
+  margin: 0 0 30px 0;
+  font-size: 12px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  height: $table-max-height;
+  background: $container-content-background-color;
+  z-index: 1;
+
+  thead {
+    position: sticky;
+    top: 0;
+    display: flex;
+    z-index: 1;
+    width: 100%;
+
+    tr {
+      background-color: $brand-color1;
+      color: white;
+      text-align: left;
+      font-weight: bold;
+      width: 100%;
+    }
+  }
+
+  th, td{
+    width: calc(15% - 10px);
+    padding: 5px;
+    overflow: hidden;
+    display: inline-block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    @include above(large) {
+      padding: 10px;
+    }
+  }
+
+  tbody{
+    position: absolute;
+    width: calc(100% - 20px);
+    overflow: auto;
+    height: $table-max-height - 28px;
+
+    @include above(large) {
+      width: calc(100% - 50px);
+    }
+
+    .dropdown {
+      position: absolute;
+      border-bottom: 1px solid #dddddd;
+
+      &:hover {
+        border: none;
+
+        .list {
+          display: flex;
+        }
+      }
+
+      .text {
+        cursor: pointer;
+      }
+
+      .list {
+        display: none;
+        position: relative;
+        top: 0;
+        flex-flow: column;
+        background: $container-content-background-color;
+        z-index: 1;
+        padding: 0;
+        list-style: none;
+        margin: 5px 0;
+        border: 1px solid $light-gray-color;
+
+        li {
+          cursor: pointer;
+          padding: 10px;
+
+          &:hover {
+            background: $light-gray-color;
+          }
+        }
+      }
+    }
+  }
+
+  tbody tr {
+    border-bottom: 1px solid $light-gray-color;
+    position: absolute;
+    width: 100%;
+  }
+
+  tbody tr:nth-of-type(even){
+    background-color: $container-content-background-color;
+  }
+}

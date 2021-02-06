@@ -1,0 +1,44 @@
+@mixin above($bp) {
+  @if $bp == small {
+    @media screen and (min-width: $screen-sm + 1px) {
+      @content;
+    }
+  } @else if $bp == medium {
+    @media screen and (min-width: $screen-md + 1px) {
+      @content;
+    }
+  } @else if $bp == large {
+    @media screen and (min-width: $screen-lg + 1px) {
+      @content;
+    }
+  } @else if $bp == x-large {
+    @media screen and (min-width: $screen-xl) {
+      @content;
+    }
+  } @else {
+    @media screen and (min-width: $bp) {
+      @content;
+    }
+  }
+}
+
+@mixin button($width: auto, $height: auto, $color: $brand-color2, $textColor: white) {
+  background: $color;
+  border: 1px solid $color;
+  color: $textColor;
+  padding: 5px;
+  border-radius: $custom-border-radius;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+  width: $width;
+  height: $height;
+  cursor: pointer;
+  transition: 0.3s;
+  text-decoration: none;
+
+  &:hover:not([disabled]) {
+    background: $textColor;
+    color: $color;
+  }
+}

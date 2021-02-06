@@ -1,0 +1,18 @@
+Edit
+Remove unnecessary files and code
+Mobile
+Style
+Tests
+Readme
+Generate 10000 rows and update UI
+Unfocused after clicking dropdown item
+Put icons for actions
+On hover see all text
+Add Loader (spinner or skeletons)
+Error messages (Alerts)
+Remove the part of the state for large array
+Remove node_modules
+Upload to GIT
+
+
+

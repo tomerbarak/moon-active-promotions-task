@@ -1,0 +1,14 @@
+@import '../../../styles/index.scss';
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  width: 300px;
+
+  .generate {
+    @include button();
+
+    margin-bottom: 20px;
+  }
+}

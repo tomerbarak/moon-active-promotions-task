@@ -1,0 +1,42 @@
+@import '../../../styles/index.scss';
+.close_button {
+  border: none;
+  cursor: pointer;
+  outline: inherit;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  border-radius: 50%;
+  display: flex;
+
+  &:hover {
+    &::before,
+    &::after {
+      background-color: white;
+    }
+  }
+
+  &::before,
+  &::after {
+    content: '';
+    height: 15px;
+    width: 2px;
+    background-color: black;
+    border-radius: $custom-border-radius;
+    align-self: center;
+    justify-items: center;
+    position: absolute;
+  }
+
+  &:before {
+    transform: rotate(45deg);
+  }
+
+  &:after {
+    transform: rotate(-45deg);
+  }
+}
