@@ -13,12 +13,11 @@ const PromotionsActions = (props) => {
       dispatch({
         type: actionTypes.GENERATE_PROMOTIONS_START,
       });
-      const response = await createPromotions(amount);
-      if (response) {
-        dispatch({
-          type: actionTypes.GENERATE_PROMOTIONS_SUCCESS,
-        });
-      }
+      const newPromotionsList = await createPromotions(amount);
+      dispatch({
+        type: actionTypes.GENERATE_PROMOTIONS_SUCCESS,
+        payload: newPromotionsList,
+      });
     } catch (error) {
       console.log(error);
       dispatch({
@@ -43,7 +42,7 @@ const PromotionsActions = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    isLoading: state.ui.isLoading,
+    isLoading: state.promotions.isLoading,
   };
 };
 

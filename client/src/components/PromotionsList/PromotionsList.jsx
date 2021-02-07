@@ -4,16 +4,16 @@ import { getPromotions } from "../../store/actions";
 import PromotionsTable from "./PromotionsTable/PromotionsTable";
 import PromotionsActions from "./PromotionsActions/PromotionsActions";
 import { debounce } from "../../utils/helpers";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { ACTIONS_TYPE } from "../../utils/constants";
 import { Spinner } from "../UI/Spinner/Spinner";
+import * as actionTypes from "../../store/actionTypes";
 
 const PromotionsList = (props) => {
-  const { updatedPromotion, isLoading } = props;
+  const dispatch = useDispatch();
+  const { newPromotionsList, updatedPromotion, isLoading } = props;
   const [promotionsList, setPromotionsList] = useState([]);
-  const [promotionsToShow, setPromotionsToShow] = useState([]);
   const [page, setPage] = useState(0);
-  const [lastPage, setLastPage] = useState(0);
   const threshold = 50;
   const fetchOffset = 700;
   const itemHeight = 40;
@@ -26,27 +26,30 @@ const PromotionsList = (props) => {
   };
 
   const loadMorePromotions = async () => {
-    let newPromotionsList = promotionsList;
-    if (lastPage <= page) {
-      setLastPage(page);
+    try {
+      dispatch({
+        type: actionTypes.GET_PROMOTIONS_START,
+      });
       const morePromotions = await getPromotions([`page=${page}`]);
       if (morePromotions.length > 0) {
-        newPromotionsList = [...promotionsList, ...morePromotions];
-        setPromotionsList(newPromotionsList);
+        setPromotionsList([...promotionsList, ...morePromotions]);
       }
+      dispatch({
+        type: actionTypes.GET_PROMOTIONS_SUCCESS,
+      });
+    } catch (error) {
+      console.log(error);
+      dispatch({
+        type: actionTypes.GET_PROMOTIONS_FAILED,
+      });
     }
-    setPromotionsToShow(newPromotionsList);
   };
 
   const updatePromotionsList = (updatedPromotion) => {
     let updatedPromotionsList;
-    let updatedPromotionsToShow;
     const updatedObj = updatedPromotion.promotion;
     if (updatedPromotion.type === ACTIONS_TYPE.DELETE) {
       updatedPromotionsList = promotionsList.filter(
-        (promotion) => promotion.id !== updatedObj.id
-      );
-      updatedPromotionsToShow = promotionsToShow.filter(
         (promotion) => promotion.id !== updatedObj.id
       );
     } else if (updatedPromotion.type === ACTIONS_TYPE.DUPLICATE) {
@@ -55,14 +58,8 @@ const PromotionsList = (props) => {
         0,
         updatedObj
       );
-      promotionsToShow.splice(
-        promotionsToShow.findIndex((p) => p.name === updatedObj.name),
-        0,
-        updatedObj
-      );
     }
     setPromotionsList(updatedPromotionsList || promotionsList);
-    setPromotionsToShow(updatedPromotionsToShow || promotionsToShow);
   };
 
   useEffect(() => {
@@ -74,17 +71,20 @@ const PromotionsList = (props) => {
     updatePromotionsList(updatedPromotion);
   }, [updatedPromotion]);
 
-  debugger;
+  useEffect(() => {
+    setPromotionsList([...promotionsList, ...newPromotionsList]);
+  }, [newPromotionsList]);
+
   return (
     <div className={classes.container}>
       <div className={classes.content}>
-        {isLoading && <Spinner />}
         <PromotionsActions page={page} />
-        {promotionsToShow.length > 0 && (
+        {promotionsList.length > 0 && (
           <>
             <h3 className={classes.header}>List of awesome promotions:</h3>
+            {isLoading && <Spinner />}
             <PromotionsTable
-              promotionsList={promotionsToShow}
+              promotionsList={promotionsList}
               itemHeight={itemHeight}
               onScrollEvent={triggerLoadMore}
             />
@@ -97,9 +97,10 @@ const PromotionsList = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    isLoading: state.ui.isLoading,
     error: state.ui.error,
+    isLoading: state.promotions.isLoading,
     updatedPromotion: state.promotions.updatedPromotion,
+    newPromotionsList: state.promotions.newPromotionsList,
   };
 };
 

@@ -10,7 +10,7 @@ export const getPromotions = async (params) => {
 
 export const createPromotions = async (amount) => {
   try {
-    await PromotionsService.createPromotions(amount);
+    return await PromotionsService.createPromotions(amount);
   } catch (error) {
     throw error;
   }

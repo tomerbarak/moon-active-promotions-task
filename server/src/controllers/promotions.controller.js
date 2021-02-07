@@ -73,7 +73,7 @@ const generatePromotions = async (request, response) => {
       newPromotionsArray.push(promotionObject);
     });
 
-    await Promotions.create(newPromotionsArray, (error, ...newRowResponse) => {
+    await Promotions.create(newPromotionsArray, (error, newRowResponse) => {
       if (error) {
         throw error;
       } else {
