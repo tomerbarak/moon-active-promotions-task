@@ -19,7 +19,6 @@ const PromotionsList = (props) => {
   const itemHeight = 40;
 
   const triggerLoadMore = (e) => {
-    // todo: debounce
     if (e.scrollOffset > (page + 1) * threshold * itemHeight - fetchOffset) {
       setPage(page + 1);
     }
@@ -58,8 +57,12 @@ const PromotionsList = (props) => {
         0,
         updatedObj
       );
+    } else if (updatedPromotion.type === ACTIONS_TYPE.EDIT) {
+      promotionsList[
+        promotionsList.findIndex((p) => p.id === updatedObj.id)
+      ] = updatedObj;
     }
-    setPromotionsList(updatedPromotionsList || promotionsList);
+    setPromotionsList(updatedPromotionsList || [...promotionsList]);
   };
 
   useEffect(() => {
@@ -86,7 +89,7 @@ const PromotionsList = (props) => {
             <PromotionsTable
               promotionsList={promotionsList}
               itemHeight={itemHeight}
-              onScrollEvent={triggerLoadMore}
+              onScrollEvent={debounce(triggerLoadMore, 50)}
             />
           </>
         )}

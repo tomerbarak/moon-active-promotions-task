@@ -1,5 +1,6 @@
 const HttpStatus = require("http-status-codes");
 const Promotions = require("../models/promotions");
+const ObjectID = require("mongodb").ObjectID;
 const { generateRandomPromotion } = require("../utils/promotions");
 
 const handleError = (response, error) => {
@@ -63,7 +64,7 @@ const getPromotions = (request, response) => {
 
 const generatePromotions = async (request, response) => {
   console.log("--- generate promotions ---");
-  const { amount = 300 } = request.body;
+  const { amount = 10000 } = request.body;
 
   try {
     const newPromotionsArray = [];
@@ -115,6 +116,28 @@ const duplicatePromotion = async (request, response) => {
   }
 };
 
+const editPromotionName = async (request, response) => {
+  console.log("---- edit promotions ----");
+  try {
+    const { id } = request.params;
+    const { name } = request.body;
+    return await Promotions.findByIdAndUpdate(
+      ObjectID(id),
+      { name: name },
+      { new: true },
+      (error, editedPromotion) => {
+        if (error) {
+          handleError(response, error);
+        } else {
+          response.status(HttpStatus.OK).send(editedPromotion);
+        }
+      }
+    );
+  } catch (error) {
+    handleError(response, error);
+  }
+};
+
 const deletePromotion = async (request, response) => {
   console.log("---- delete promotions ----");
   try {
@@ -146,5 +169,6 @@ module.exports = {
   getPromotions,
   generatePromotions,
   duplicatePromotion,
+  editPromotionName,
   deletePromotion,
 };

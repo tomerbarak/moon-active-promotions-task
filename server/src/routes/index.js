@@ -14,5 +14,6 @@ module.exports = (app) => {
     "/api/duplicatePromotion/:id",
     promotionsRouter.duplicatePromotion
   );
-  router.put("/api/deletePromotion/:id", promotionsRouter.deletePromotion);
+  router.delete("/api/deletePromotion/:id", promotionsRouter.deletePromotion);
+  router.put("/api/editPromotionName/:id", promotionsRouter.editPromotionName);
 };

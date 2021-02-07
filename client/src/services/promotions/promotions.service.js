@@ -28,7 +28,7 @@ export default class PromotionsService {
 
   static deletePromotionById(id) {
     // todo: validate is admin
-    return HttpService.put(`/deletePromotion/${id}`).then(
+    return HttpService.delete(`/deletePromotion/${id}`).then(
       (updatedPromotion) => {
         return Promise.resolve(updatedPromotion);
       }
@@ -42,5 +42,13 @@ export default class PromotionsService {
         return Promise.resolve(duplicatedPromotion);
       }
     );
+  }
+  static editPromotionNameById(id, name) {
+    // todo: validate is admin
+    return HttpService.put(`/editPromotionName/${id}`, null, {
+      name: name,
+    }).then((editedPromotion) => {
+      return Promise.resolve(editedPromotion);
+    });
   }
 }

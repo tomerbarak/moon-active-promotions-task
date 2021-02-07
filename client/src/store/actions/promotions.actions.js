@@ -31,3 +31,11 @@ export const duplicatePromotionById = async (id) => {
     throw error;
   }
 };
+
+export const editPromotionNameById = async (id, name) => {
+  try {
+    return await PromotionsService.editPromotionNameById(id, name);
+  } catch (error) {
+    throw error;
+  }
+};

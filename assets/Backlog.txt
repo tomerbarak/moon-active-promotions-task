@@ -5,15 +5,14 @@ Style
 Tests
 Readme
 Generate 10000 rows and update UI
-Unfocused after clicking dropdown item
-Put icons for actions
 On hover see all text
-Keep only with async await
 Add Loader (spinner or skeletons)
 Error messages (Alerts)
-Remove the part of the state for large array
-Remove node_modules
-Upload to GIT
+Splits the reducers
+Keep only with async await
+React Lazy for Modal
+Unfocused after clicking dropdown item
+Put icons for actions
 
 
 

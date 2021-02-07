@@ -1,6 +1,6 @@
-import HttpUtilsService from './httpUtills.service';
-import HttpParams from '../../../models/HttpParams';
-import axiosHTTPInstance from '../axios.http';
+import HttpUtilsService from "./httpUtills.service";
+import HttpParams from "../../../models/HttpParams";
+import axiosHTTPInstance from "../axios.http";
 
 export default class HttpService {
   /**
@@ -13,7 +13,7 @@ export default class HttpService {
       params = new HttpParams();
     }
 
-    params.requestType = 'GET';
+    params.requestType = "GET";
     params.url = url;
 
     return this.performRequest(params);
@@ -24,19 +24,29 @@ export default class HttpService {
       params = new HttpParams();
     }
 
-    params.requestType = 'POST';
+    params.requestType = "POST";
     params.url = url;
     params.body = payload;
     return this.performRequest(params);
   }
 
-  // TODO: not working
   static async put(url, params, payload) {
     if (!params) {
       params = new HttpParams();
     }
 
-    params.requestType = 'PUT';
+    params.requestType = "PUT";
+    params.url = url;
+    params.body = payload;
+    return this.performRequest(params);
+  }
+
+  static async delete(url, params, payload) {
+    if (!params) {
+      params = new HttpParams();
+    }
+
+    params.requestType = "DELETE";
     params.url = url;
     params.body = payload;
     return this.performRequest(params);
@@ -47,11 +57,16 @@ export default class HttpService {
    * @param  {} params provided request parameters.
    */
   static async performRequest(params) {
-    const httpData = HttpUtilsService.getHttpData(params.url, params.requestType, params.headers, params.body);
+    const httpData = HttpUtilsService.getHttpData(
+      params.url,
+      params.requestType,
+      params.headers,
+      params.body
+    );
     try {
       const response = await axiosHTTPInstance(httpData);
       if (response.status === 200) {
-        if (window.location.hostname === 'localhost') {
+        if (window.location.hostname === "localhost") {
           console.log(response);
         }
         return response.data;
