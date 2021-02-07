@@ -5,7 +5,6 @@
   margin: 0 0 30px 0;
   font-size: 12px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-  height: $table-max-height;
   background: $container-content-background-color;
   z-index: 1;
 
@@ -25,36 +24,36 @@
     }
   }
 
-  th, td{
+  th, .td{
     width: calc(15% - 10px);
     padding: 5px;
     overflow: hidden;
-    display: inline-block;
+    display: inline-flex;
     text-overflow: ellipsis;
     white-space: nowrap;
+    align-items: center;
 
     @include above(large) {
       padding: 10px;
     }
   }
 
-  tbody{
-    position: absolute;
-    width: calc(100% - 20px);
-    overflow: auto;
-    height: $table-max-height - 28px;
+  .tbody {
+    .tr {
+      border-bottom: 1px solid $light-gray-color;
+      display: flex;
+    }
 
-    @include above(large) {
-      width: calc(100% - 50px);
+    tr:nth-of-type(even){
+      background-color: $container-content-background-color;
     }
 
     .dropdown {
-      position: absolute;
-      border-bottom: 1px solid #dddddd;
+      position: relative;
+      display: flex;
+      align-items: center;
 
       &:hover {
-        border: none;
-
         .list {
           display: flex;
         }
@@ -66,8 +65,8 @@
 
       .list {
         display: none;
-        position: relative;
-        top: 0;
+        position: absolute;
+        top: 30px;
         flex-flow: column;
         background: $container-content-background-color;
         z-index: 1;
@@ -86,15 +85,5 @@
         }
       }
     }
-  }
-
-  tbody tr {
-    border-bottom: 1px solid $light-gray-color;
-    position: absolute;
-    width: 100%;
-  }
-
-  tbody tr:nth-of-type(even){
-    background-color: $container-content-background-color;
   }
 }

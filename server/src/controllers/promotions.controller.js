@@ -12,7 +12,7 @@ const getPromotions = (request, response) => {
     console.log("------ get promotions -----");
     let paramObj = {};
     let sortBy = "name";
-    let limit = 30;
+    let limit = 50;
     let page = 0;
     if (request.query) {
       const params = new URLSearchParams(request.query);
@@ -63,7 +63,7 @@ const getPromotions = (request, response) => {
 
 const generatePromotions = async (request, response) => {
   console.log("--- generate promotions ---");
-  const { amount = 10000 } = request.body;
+  const { amount = 300 } = request.body;
 
   try {
     const newPromotionsArray = [];

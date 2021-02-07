@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import classes from "./PromotionsList.scss";
 import { getPromotions } from "../../store/actions";
 import PromotionsTable from "./PromotionsTable/PromotionsTable";
@@ -6,27 +6,24 @@ import PromotionsActions from "./PromotionsActions/PromotionsActions";
 import { debounce } from "../../utils/helpers";
 import { connect } from "react-redux";
 import { ACTIONS_TYPE } from "../../utils/constants";
+import { Spinner } from "../UI/Spinner/Spinner";
 
 const PromotionsList = (props) => {
-  const { updatedPromotion } = props;
+  const { updatedPromotion, isLoading } = props;
   const [promotionsList, setPromotionsList] = useState([]);
   const [promotionsToShow, setPromotionsToShow] = useState([]);
   const [page, setPage] = useState(0);
   const [lastPage, setLastPage] = useState(0);
-  const [maxPage, setMaxPage] = useState(0);
-  const tableRef = useRef(null);
-  const threshold = 30;
+  const threshold = 50;
+  const fetchOffset = 700;
+  const itemHeight = 40;
 
-  const triggerLoadMore = () =>
-    debounce(async () => {
-      const element = tableRef.current;
-      if (!element) return;
-      if (element.scrollTop + 700 > element.scrollHeight) {
-        setPage(page !== 0 && page <= maxPage ? page - 1 : page + 1);
-      } else if (element.scrollHeight - element.scrollTop > 2300) {
-        setPage(page <= 1 ? 1 : page - 1);
-      }
-    }, 50);
+  const triggerLoadMore = (e) => {
+    // todo: debounce
+    if (e.scrollOffset > (page + 1) * threshold * itemHeight - fetchOffset) {
+      setPage(page + 1);
+    }
+  };
 
   const loadMorePromotions = async () => {
     let newPromotionsList = promotionsList;
@@ -36,13 +33,9 @@ const PromotionsList = (props) => {
       if (morePromotions.length > 0) {
         newPromotionsList = [...promotionsList, ...morePromotions];
         setPromotionsList(newPromotionsList);
-      } else if (morePromotions.length < threshold) {
-        setMaxPage(page);
       }
     }
-    const startingPage = page * threshold - threshold;
-    const offsetPage = page * threshold + threshold;
-    setPromotionsToShow(newPromotionsList.slice(startingPage, offsetPage));
+    setPromotionsToShow(newPromotionsList);
   };
 
   const updatePromotionsList = (updatedPromotion) => {
@@ -81,19 +74,19 @@ const PromotionsList = (props) => {
     updatePromotionsList(updatedPromotion);
   }, [updatedPromotion]);
 
+  debugger;
   return (
     <div className={classes.container}>
       <div className={classes.content}>
+        {isLoading && <Spinner />}
         <PromotionsActions page={page} />
         {promotionsToShow.length > 0 && (
           <>
             <h3 className={classes.header}>List of awesome promotions:</h3>
             <PromotionsTable
               promotionsList={promotionsToShow}
-              threshold={threshold}
-              page={page}
-              tableRef={tableRef}
-              onScrollEvent={triggerLoadMore()}
+              itemHeight={itemHeight}
+              onScrollEvent={triggerLoadMore}
             />
           </>
         )}
@@ -104,6 +97,7 @@ const PromotionsList = (props) => {
 
 const mapStateToProps = (state) => {
   return {
+    isLoading: state.ui.isLoading,
     error: state.ui.error,
     updatedPromotion: state.promotions.updatedPromotion,
   };

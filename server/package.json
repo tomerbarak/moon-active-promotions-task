@@ -30,7 +30,7 @@
     "jsdom": "^16.4.0",
     "mime": ">=1.4.1",
     "mongoose": "^5.9.18",
-    "morgan": "~1.9.0",
+    "morgan": "~1.9.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.4",
