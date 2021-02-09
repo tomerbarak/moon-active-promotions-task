@@ -4,7 +4,7 @@ Mobile
 Style
 Tests
 Readme
-Generate 10000 rows and update UI
+Generate 10000 rows then update UI
 On hover see all text
 Add Loader (spinner or skeletons)
 Error messages (Alerts)
@@ -13,6 +13,11 @@ Keep only with async await
 React Lazy for Modal
 Unfocused after clicking dropdown item
 Put icons for actions
+TypeScript
+Remove state after 2000 items
+Use window-table instead of react-window
+Use styled-components or emotion styled
+
 
 
 

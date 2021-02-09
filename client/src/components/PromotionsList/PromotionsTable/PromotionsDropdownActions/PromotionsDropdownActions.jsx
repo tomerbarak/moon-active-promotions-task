@@ -10,7 +10,7 @@ import { useDispatch } from "react-redux";
 const PromotionsDropdownActions = ({ promotion = {} }) => {
   const dispatch = useDispatch();
 
-  const EditPromotion = async (promotion) => {
+  const openEditPromotionModal = async (promotion) => {
     dispatch({
       type: actionTypes.TOGGLE_EDIT_PROMOTION_MODAL,
       payload: { promotion: promotion, showModal: true, showOverlay: true },
@@ -55,7 +55,7 @@ const PromotionsDropdownActions = ({ promotion = {} }) => {
     <div className={classes.dropdown}>
       <div className={classes.text}>Choose</div>
       <ul className={classes.list}>
-        <li onClick={() => EditPromotion(promotion)}>Edit</li>
+        <li onClick={() => openEditPromotionModal(promotion)}>Edit</li>
         <li onClick={() => deletePromotion(promotion.id)}>Delete</li>
         <li onClick={() => duplicatePromotion(promotion.id)}>Duplicate</li>
       </ul>

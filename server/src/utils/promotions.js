@@ -16,7 +16,7 @@ const generateRandomPromotion = (promotionData, index) => {
     start_date: start_date || new Date(),
     end_date: end_date || new Date(),
     user_group_name: user_group_name || getRandomString(),
-    update_date: update_date || new Date(),
+    update_date: update_date || new Date(), // todo: we can remove this
   };
 };
 
